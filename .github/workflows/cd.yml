@@ -1,4 +1,4 @@
-name: CD with Gradle
+name: Repository Clone 
 
 on:
   push:
