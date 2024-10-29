@@ -18,5 +18,6 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
           script: |
-            cd ~
+            cd ~/Documents
+            rm -rf gamemuncheol-infra
             git clone https://github.com/gamemuncheol/gamemuncheol-infra
