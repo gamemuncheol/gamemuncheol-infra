@@ -1,0 +1,94 @@
+version: '3.9'
+
+services:
+  main-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: df159357
+    ports:
+      - "3306:3306"
+    networks:
+      - gamemuncheol
+    volumes:
+      - main-db-data:/var/lib/mysql
+
+  backup-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: df159357
+    ports:
+      - "3307:3306"
+    networks:
+      - gamemuncheol
+    volumes:
+      - backup-db-data:/var/lib/mysql
+
+  # Redis 설정
+  main-redis:
+    image: redis:latest
+    container_name: main-redis
+    environment:
+      REDIS_PASSWORD: df159357
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/main-redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      - gamemuncheol
+
+  server-1:
+    image: rookedsysc/gamemuncheol:test
+    networks:
+      - gamemuncheol
+    ports: 
+      - 10221:22
+      - 8081:8080
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2.0"
+
+  server-2:
+    image: rookedsysc/gamemuncheol:latest
+    networks:
+      - gamemuncheol
+    ports:
+      - 10222:22
+      - 8082:8080
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2.0"
+
+  nginx:
+    image: nginx:latest
+    networks:
+      - gamemuncheol
+    ports:
+      - 80:80
+      - 8080:8080
+      - 10223:22
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    networks:
+      - gamemuncheol
+    ports:
+      - "9113:9113"
+    command:
+      - "-nginx.scrape-uri=http://nginx/nginx_status"
+
+networks:
+  gamemuncheol:
+    driver: bridge
+
+volumes:
+  main-db-data:
+  backup-db-data:
