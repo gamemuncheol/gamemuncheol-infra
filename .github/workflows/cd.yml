@@ -20,4 +20,4 @@ jobs:
           script: |
             cd ~/Documents
             rm -rf gamemuncheol-infra
-            git clone https://github.com/gamemuncheol/gamemuncheol-infra
+            git clone git@github.com:gamemuncheol/gamemuncheol-infra.git
