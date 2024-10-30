@@ -44,9 +44,14 @@ services:
       - 8081:8080
     deploy:
       resources:
-        limits:
+        # https://docs.docker.com/reference/compose-file/deploy/#resources
+        limits: # 제한
+          cpus: '2'
           memory: 4g
-          cpus: "2.0"
+        reservations: # 메인 OS에서 미리 예약 
+          cpus: '2'
+          memory: 4g
+
 
   server-2:
     image: rookedsysc/gamemuncheol:latest
@@ -58,8 +63,11 @@ services:
     deploy:
       resources:
         limits:
+          cpus: '2'
           memory: 4g
-          cpus: "2.0"
+        reservations:
+          cpus: '2'
+          memory: 4g
 
   nginx:
     image: nginx:latest
