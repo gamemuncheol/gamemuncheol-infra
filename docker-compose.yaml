@@ -36,7 +36,7 @@ services:
       - gamemuncheol
 
   server-1:
-    image: rookedsysc/gamemuncheol:test
+    image: rookedsysc/gamemuncheol:latest
     networks:
       - gamemuncheol
     ports: 
@@ -52,7 +52,6 @@ services:
           cpus: '2'
           memory: 4g
 
-
   server-2:
     image: rookedsysc/gamemuncheol:latest
     networks:
@@ -66,6 +65,23 @@ services:
           cpus: '2'
           memory: 4g
         reservations:
+          cpus: '2'
+          memory: 4g
+
+  test-1:
+    image: rookedsysc/gamemuncheol:test
+    networks:
+      - gamemuncheol
+    ports: 
+      - 10221:22
+      - 8081:8080
+    deploy:
+      resources:
+        # https://docs.docker.com/reference/compose-file/deploy/#resources
+        limits: # 제한
+          cpus: '2'
+          memory: 4g
+        reservations: # 메인 OS에서 미리 예약 
           cpus: '2'
           memory: 4g
 
