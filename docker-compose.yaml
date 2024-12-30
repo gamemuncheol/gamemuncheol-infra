@@ -72,9 +72,9 @@ services:
     image: rookedsysc/gamemuncheol:test
     networks:
       - gamemuncheol
-    ports: 
-      - 10221:22
-      - 8081:8080
+    ports:
+      - 10223:22
+      - 8083:8080
     deploy:
       resources:
         # https://docs.docker.com/reference/compose-file/deploy/#resources
