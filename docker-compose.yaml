@@ -73,7 +73,6 @@ services:
     networks:
       - gamemuncheol
     ports:
-      - 10223:22
       - 8083:8080
     deploy:
       resources:
